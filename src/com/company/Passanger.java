@@ -2,10 +2,10 @@ package com.company;
 
 public class Passanger{
     private int id;
-    private int destinationFloor;
+    private Floor destinationFloor;
     private int weight;
 
-    public Passanger(int id, int destinationFloor, int weight) {
+    public Passanger(int id, Floor destinationFloor, int weight) {
         this.id = id;
         this.destinationFloor = destinationFloor;
         this.weight = weight;
@@ -19,11 +19,11 @@ public class Passanger{
         this.id = id;
     }
 
-    public int getDestinationFloor() {
+    public Floor getDestinationFloor() {
         return destinationFloor;
     }
 
-    public void setDestinationFloor(int destinationFloor) {
+    public void setDestinationFloor(Floor destinationFloor) {
         this.destinationFloor = destinationFloor;
     }
 

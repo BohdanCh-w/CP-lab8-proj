@@ -1,5 +1,6 @@
 package com.company;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 public class Lift {
@@ -7,15 +8,16 @@ public class Lift {
     private Integer maxPeopleCount;
     private Floor currentFloor;
     private Floor destinationFloor;
-    private ArrayList<Passanger> liftPassangers;
+    private ArrayDeque<Passanger> liftPassangers;
     private Integer currentWeight;
 
     public Lift(Integer mv, Integer mpc){
         this.maxWeight = mv;
         this.maxPeopleCount = mpc;
         this.currentFloor = Emulation.getInstance().getBuilding().getFloorList().get(0);
-        this.liftPassangers = new ArrayList<>();
+        this.liftPassangers = new ArrayDeque<>();
     }
+    //їзда до поверху призначення
     public void moveToFloor(Floor f){
         this.destinationFloor = f;
         while (this.currentFloor!=this.destinationFloor){
@@ -28,6 +30,7 @@ public class Lift {
             currentFloor.update(this);
         };
     }
+    //їзда до наступного поверху
     public void moveToNextDoorFloor(Integer direction){
         if (direction>0){
             this.currentFloor = (Floor) Emulation.getInstance().getBuilding().getFloorList().stream().
@@ -37,8 +40,11 @@ public class Lift {
             this.currentFloor = (Floor) Emulation.getInstance().getBuilding().getFloorList().stream().
                     filter((el)->(el.getFloorNumber() - currentFloor.getFloorNumber())==-1);
         }
+        notifyFloor();
     }
-
+    public void leaveLift(){
+        //liftPassangers.stream().filter((el)->el.getDestinationFloor().equals(this.destinationFloor));
+    }
     public Floor getCurrentFloor() {
         return currentFloor;
     }
@@ -50,7 +56,7 @@ public class Lift {
     public Integer getCurrentWeight() {
         return currentWeight;
     }
-    public ArrayList<Passanger> getLiftPassangers() {
+    public ArrayDeque<Passanger> getLiftPassangers() {
         return liftPassangers;
     }
 

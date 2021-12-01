@@ -18,8 +18,9 @@ public class Floor {
     public HashMap<Lift, ArrayDeque<Passanger>> getQueue() {
         return queue;
     }
+    // посадка пасажира з черги у певний ліфт
     public void update(Lift l){
-        if (!queue.get(l).isEmpty() &&
+        while (!queue.get(l).isEmpty() &&
                 l.getMaxPeopleCount()==l.getLiftPassangers().stream().count() &&
                 l.getMaxWeight()<l.getCurrentWeight()-queue.get(l).getFirst().getWeight()) {
             var pas = queue.get(l).getFirst();
