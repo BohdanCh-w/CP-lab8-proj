@@ -8,7 +8,7 @@ public class BuildingPanel {
 
     public BuildingPanel() {
         panel.setLayout(new GridBagLayout());
-        panel.setPreferredSize(new Dimension(410, 720));
+        panel.setPreferredSize(new Dimension(930, 720));
 
         createComponents();
         drawComponents();

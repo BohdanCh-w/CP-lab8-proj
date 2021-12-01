@@ -9,7 +9,7 @@ public class ControlPanel {
 
     public ControlPanel() {
         panel.setLayout(new GridBagLayout());
-        panel.setPreferredSize(new Dimension(410, 720));
+        panel.setPreferredSize(new Dimension(350, 720));
 
         createComponents();
         drawComponents();
