@@ -10,17 +10,25 @@ public class Emulation {
     private ArrayList<Thread> liftThreads;
     private static Emulation emulation;
 
-    private Emulation ( Integer _spawnSpeed, Integer _liftSpeed){
+    private Emulation (){
         this.building = new Building();
         this.state = false;
-        this.spawnSpeed = _spawnSpeed;
+        this.spawnSpeed = null;
         this.liftThreads = new ArrayList<>();
-        this.liftSpeed = _liftSpeed;
+        this.liftSpeed = null;
     }
 
-    public static Emulation getInstance(Integer ss, Integer ls) {
+    public Building getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
+    }
+
+    public static Emulation getInstance() {
         if(emulation == null)
-            emulation = new Emulation(ss,ls);
+            emulation = new Emulation();
         return emulation;
     }
     public void SpawnPassenger(){
