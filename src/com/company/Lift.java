@@ -1,7 +1,10 @@
 package com.company;
 
+import com.company.strategy.IElevatorStrategy;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Lift {
     private Integer maxWeight;
@@ -9,6 +12,7 @@ public class Lift {
     private Floor currentFloor;
     private Floor destinationFloor;
     private ArrayDeque<Passanger> liftPassangers;
+    private IElevatorStrategy strategy;
     private Integer currentWeight;
 
     public Lift(Integer mv, Integer mpc){
@@ -17,28 +21,33 @@ public class Lift {
         this.currentFloor = Emulation.getInstance().getBuilding().getFloorList().get(0);
         this.liftPassangers = new ArrayDeque<>();
     }
+
+    public void MoveElevator(){
+
+    }
+
     //їзда до поверху призначення
     public void moveToFloor(Floor f){
         this.destinationFloor = f;
         while (this.currentFloor!=this.destinationFloor){
-            moveToNextDoorFloor(this.currentFloor.getFloorNumber()-this.destinationFloor.getFloorNumber());
+            moveToNextDoorFloor(Emulation.getInstance().getBuilding().getFloorList(), this.currentFloor.getFloorNumber()-this.destinationFloor.getFloorNumber());
         }
     }
     //strategy 1
     public void notifyFloor(){
         if (destinationFloor == currentFloor){
-            currentFloor.update(this);
+            currentFloor.AddPassLift(this);
         };
     }
     //їзда до наступного поверху
-    public void moveToNextDoorFloor(Integer direction){
+    public void moveToNextDoorFloor(ArrayList<Floor> floorList, Integer direction){
         if (direction>0){
-            this.currentFloor = (Floor) Emulation.getInstance().getBuilding().getFloorList().stream().
-                    filter((el)->(el.getFloorNumber() - currentFloor.getFloorNumber())==1);
+            this.currentFloor = floorList.stream().
+                    filter((el)->(el.getFloorNumber() - currentFloor.getFloorNumber())==1).collect(Collectors.toList()).get(0);
         }
         else if (direction<0){
-            this.currentFloor = (Floor) Emulation.getInstance().getBuilding().getFloorList().stream().
-                    filter((el)->(el.getFloorNumber() - currentFloor.getFloorNumber())==-1);
+            this.currentFloor = floorList.stream().
+                    filter((el)->(el.getFloorNumber() - currentFloor.getFloorNumber())==-1).collect(Collectors.toList()).get(0);
         }
         notifyFloor();
     }
@@ -77,6 +86,14 @@ public class Lift {
     }
     public void setMaxPeopleCount(Integer maxPeopleCount) {
         this.maxPeopleCount = maxPeopleCount;
+    }
+
+    public IElevatorStrategy getStrategy() {
+        return strategy;
+    }
+
+    public void setStrategy(IElevatorStrategy strategy) {
+        this.strategy = strategy;
     }
     public Integer getMaxWeight() {
         return maxWeight;
