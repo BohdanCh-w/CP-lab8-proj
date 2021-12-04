@@ -6,6 +6,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.List;
 import com.company.*;
+import com.company.strategy.*;
 
 public class LiftConfigFrame {
     private JFrame root = new JFrame();
@@ -153,9 +154,26 @@ public class LiftConfigFrame {
     
     private void update() {
         lCurr.setText(String.format("Lift %d Configuration", current+1));
+        var lift = lifts.get(current);
+        if(lift.getStrategy() instanceof NoNewStrategy) {
+            rbNoMore.setSelected(true);
+        } else {
+            rbTakeMore.setSelected(true);
+        }
+        eWeight.setText(lift.getMaxWeight().toString());
+        ePassangers.setText(lift.getMaxPeopleCount().toString());
+        eSpeed.setText(lift.getSpeed().toString());
     }
 
     private void save() {
-
+        var lift = lifts.get(current);
+        if(rbNoMore.isSelected()) {
+            lift.setStrategy(new NoNewStrategy());
+        } else {
+            lift.setStrategy(new TakeNewStrategy());
+        }
+        lift.setMaxWeight(Integer.parseInt(eWeight.getText()));
+        lift.setMaxPeopleCount(Integer.parseInt(ePassangers.getText()));
+        lift.setSpeed(Integer.parseInt(eSpeed.getText()));
     }
 }
