@@ -9,8 +9,9 @@ public class UI {
     private JPanel building;
     
     public UI() {
+        root.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         root.setSize(1280,720);
-        root.setLayout(new GridBagLayout());
+        root.setLayout(null);
 
         createComponents();
         drawComponents();
@@ -24,16 +25,10 @@ public class UI {
     }
 
     private void drawComponents() {        
-        var sidebarConstr = new GridBagConstraints();
-        sidebarConstr.gridx = 0;
-        sidebarConstr.gridy = 0;
-        sidebarConstr.weightx = 350;
-        root.add(sidebar, sidebarConstr);
-            
-        var buildingConstr = new GridBagConstraints();
-        buildingConstr.gridx = 1;
-        buildingConstr.gridy = 0;
-        buildingConstr.weightx = 930;
-        root.add(building, buildingConstr);
+        root.add(sidebar);
+        sidebar.setBounds(0, 0, 350, 720);
+
+        root.add(building);
+        building.setBounds(350, 0, 1280, 720);
     }
 }
