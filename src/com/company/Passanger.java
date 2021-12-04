@@ -1,6 +1,6 @@
 package com.company;
 
-public class Passanger{
+public class Passanger {
     private int id;
     private Floor destinationFloor;
     private int weight;
@@ -27,7 +27,7 @@ public class Passanger{
         this.destinationFloor = destinationFloor;
     }
 
-    public double getWeight() {
+    public int getWeight() {
         return weight;
     }
 
