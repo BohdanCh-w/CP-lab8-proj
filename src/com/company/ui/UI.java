@@ -1,12 +1,13 @@
 package com.company.ui;
 
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 
 public class UI {
     private JFrame root = new JFrame();
-    private JPanel sidebar;
-    private JPanel building;
+    private BuildingPanel building;
+    private ControlPanel sidebar;
     
     public UI() {
         root.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -20,15 +21,39 @@ public class UI {
     }
 
     private void createComponents() {
-        sidebar = new ControlPanel().getComponent();
-        building = new BuildingPanel().getComponent();
+        building = new BuildingPanel();
+        sidebar = new ControlPanel();
+        sidebar.addBuildActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Build();
+            }
+        });
+        sidebar.addStartActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Start();
+            }
+        });
     }
 
     private void drawComponents() {        
-        root.add(sidebar);
-        sidebar.setBounds(0, 0, 350, 720);
+        root.add(sidebar.getComponent());
+        sidebar.getComponent().setBounds(0, 0, 350, 720);
 
-        root.add(building);
-        building.setBounds(350, 0, 1280, 720);
+        root.add(building.getComponent());
+        building.getComponent().setBounds(350, 0, 1280, 720);
+    }
+
+    public BuildingPanel Building() {
+        return building;
+    }
+
+    private void Start() {
+
+    }
+
+    private void Build() {
+        int floors = sidebar.getFloorsCount();
+        int lifts = sidebar.getLiftsCount();
+        building.CreateBuilding(floors, lifts);
     }
 }

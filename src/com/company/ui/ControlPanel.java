@@ -119,4 +119,24 @@ public class ControlPanel {
     public JPanel getComponent() {
         return panel;
     }
+
+    public Integer getLiftsCount() {
+        return Integer.parseInt(eLift.getText());
+    }
+
+    public Integer getFloorsCount() {
+        return Integer.parseInt(eFloor.getText());
+    }
+
+    public Integer getPassangerSpawnTime() {
+        return Integer.parseInt(eSpwnTime.getText());
+    }
+
+    public void addBuildActionListener(ActionListener listener) {
+        bBuild.addActionListener(listener);
+    }
+
+    public void addStartActionListener(ActionListener listener) {
+        bStart.addActionListener(listener);
+    }
 }
