@@ -1,7 +1,10 @@
 package com.company.strategy;
 
 import com.company.Floor;
+import com.company.Lift;
+
+import java.util.ArrayList;
 
 public interface IElevatorStrategy {
-    int MoveTo(Floor floor);
+    void LoadPassengers(Lift lift, Floor floor);
 }
