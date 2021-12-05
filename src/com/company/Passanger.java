@@ -1,24 +1,27 @@
 package com.company;
 
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Passanger {
-    private int id;
+    private static AtomicInteger id;
     private Floor destinationFloor;
     private int weight;
     private Floor currentFloor;
 
-    public Passanger(int id, Floor destinationFloor, int weight, Floor currentFloor) {
-        this.id = id;
+    public Passanger(Floor destinationFloor, int weight, Floor currentFloor) {
+        id.incrementAndGet();
         this.destinationFloor = destinationFloor;
         this.weight = weight;
         this.currentFloor = currentFloor;
     }
 
     public int getId() {
-        return id;
+        return id.get();
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public static void InitializeId(){
+        Passanger.id = new AtomicInteger();
     }
 
     public Floor getDestinationFloor() {
@@ -38,7 +41,7 @@ public class Passanger {
     }
 
     public Passanger Clone() {
-        return new Passanger(this.id, this.destinationFloor, this.weight, this.currentFloor);
+        return new Passanger(this.destinationFloor, this.weight, this.currentFloor);
     }
 
     public Floor getCurrentFloor() {
