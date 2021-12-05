@@ -2,7 +2,6 @@ package com.company;
 
 import com.company.strategy.IElevatorStrategy;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -11,15 +10,18 @@ public class Lift {
     private Integer maxPeopleCount;
     private Floor currentFloor;
     private Floor destinationFloor;
-    private ArrayDeque<Passanger> liftPassangers;
+    private ArrayList<Passanger> liftPassengers;
     private IElevatorStrategy strategy;
     private Integer currentWeight;
 
-    public Lift(Integer mv, Integer mpc){
+    private boolean isMoving;
+
+    public Lift(Integer mv, Integer mpc, boolean isMoving){
         this.maxWeight = mv;
         this.maxPeopleCount = mpc;
+        this.isMoving = isMoving;
         this.currentFloor = Emulation.getInstance().getBuilding().getFloorList().get(0);
-        this.liftPassangers = new ArrayDeque<>();
+        this.liftPassengers = new ArrayList<>();
     }
 
     public void MoveElevator(){
@@ -29,6 +31,7 @@ public class Lift {
     //їзда до поверху призначення
     public void moveToFloor(Floor f){
         this.destinationFloor = f;
+        isMoving = true;
         while (this.currentFloor!=this.destinationFloor){
             moveToNextDoorFloor(Emulation.getInstance().getBuilding().getFloorList(), this.currentFloor.getFloorNumber()-this.destinationFloor.getFloorNumber());
         }
@@ -36,7 +39,7 @@ public class Lift {
     //strategy 1
     public void notifyFloor(){
         if (destinationFloor == currentFloor){
-            currentFloor.AddPassLift(this);
+            //currentFloor.AddPassLift(this);
         };
     }
     //їзда до наступного поверху
@@ -52,7 +55,7 @@ public class Lift {
         notifyFloor();
     }
     public void leaveLift(){
-        //liftPassangers.stream().filter((el)->el.getDestinationFloor().equals(this.destinationFloor));
+        //liftPassengers.stream().filter((el)->el.getDestinationFloor().equals(this.destinationFloor));
     }
     public Floor getCurrentFloor() {
         return currentFloor;
@@ -65,8 +68,13 @@ public class Lift {
     public Integer getCurrentWeight() {
         return currentWeight;
     }
-    public ArrayDeque<Passanger> getLiftPassangers() {
-        return liftPassangers;
+
+    public ArrayList<Passanger> getLiftPassengers() {
+        return liftPassengers;
+    }
+
+    public void setLiftPassengers(ArrayList<Passanger> liftPassengers) {
+        this.liftPassengers = liftPassengers;
     }
 
     public void setCurrentWeight(Integer currentWeight) {
@@ -84,6 +92,7 @@ public class Lift {
     public void setMaxWeight(Integer maxWeight) {
         this.maxWeight = maxWeight;
     }
+
     public void setMaxPeopleCount(Integer maxPeopleCount) {
         this.maxPeopleCount = maxPeopleCount;
     }
@@ -95,10 +104,20 @@ public class Lift {
     public void setStrategy(IElevatorStrategy strategy) {
         this.strategy = strategy;
     }
+
     public Integer getMaxWeight() {
         return maxWeight;
     }
+
     public Integer getMaxPeopleCount() {
         return maxPeopleCount;
+    }
+
+    public boolean isMoving() {
+        return isMoving;
+    }
+
+    public void setMoving(boolean moving) {
+        isMoving = moving;
     }
 }

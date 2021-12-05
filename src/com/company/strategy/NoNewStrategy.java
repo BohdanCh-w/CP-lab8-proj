@@ -1,6 +1,5 @@
 package com.company.strategy;
 
-import com.company.Building;
 import com.company.Floor;
 import com.company.Lift;
 
@@ -33,9 +32,6 @@ public class NoNewStrategy implements IElevatorStrategy{
 
     @Override
     public Floor MoveTo(ArrayList<Floor> floorList, Lift lift) {
-        var passengers = lift.getLiftPassangers();
-        while(true){
 
-        }
     }
 }
