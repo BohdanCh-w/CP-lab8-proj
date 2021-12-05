@@ -39,6 +39,7 @@ public class LiftConfigFrame {
 
         root.setVisible(true);
         root.setResizable(false);
+        update();
     }
 
     private void createComponents() {

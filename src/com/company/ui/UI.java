@@ -1,7 +1,6 @@
 package com.company.ui;
 
 import com.company.*;
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.List;
@@ -13,7 +12,7 @@ public class UI {
     
     public UI() {
         root.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        root.setSize(1280,720);
+        root.setSize(1280,750);
         root.setLayout(null);
 
         createComponents();
