@@ -1,8 +1,10 @@
 package com.company.ui;
 
+import com.company.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.util.List;
 
 public class UI {
     private JFrame root = new JFrame();
@@ -45,6 +47,10 @@ public class UI {
 
     public BuildingPanel Building() {
         return building;
+    }
+
+    public void SetLiftListForConfig(List<Lift> lifts) {
+        sidebar.SetLiftListForConfig(lifts);
     }
 
     private void Start() {

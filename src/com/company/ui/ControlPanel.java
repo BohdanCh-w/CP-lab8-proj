@@ -1,10 +1,9 @@
 package com.company.ui;
 
+import com.company.*;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
@@ -21,6 +20,8 @@ public class ControlPanel {
     private JButton bBuild;
     private JButton bStart;
     private JFrame configFrame = null;
+
+    private List<Lift> lifts;
 
     public ControlPanel() {
         panel.setLayout(new GridBagLayout());
@@ -113,7 +114,7 @@ public class ControlPanel {
         if(configFrame != null) {
             configFrame.dispose();
         }
-        configFrame = new LiftConfigFrame().getComponent();
+        configFrame = new LiftConfigFrame(lifts).getComponent();
     }
 
     public JPanel getComponent() {
@@ -130,6 +131,10 @@ public class ControlPanel {
 
     public Integer getPassangerSpawnTime() {
         return Integer.parseInt(eSpwnTime.getText());
+    }
+
+    public void SetLiftListForConfig(List<Lift> lifts) {
+        this.lifts = lifts;
     }
 
     public void addBuildActionListener(ActionListener listener) {
