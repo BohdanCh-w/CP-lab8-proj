@@ -27,7 +27,9 @@ public class LiftConfigFrame {
     private List<Lift> lifts;
     private int current = 0;
     
-    public LiftConfigFrame() {
+    public LiftConfigFrame(List<Lift> lifts) {
+        this.lifts = lifts;
+        
         root.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         root.setSize(500,350);
         root.setLayout(null);
@@ -37,6 +39,7 @@ public class LiftConfigFrame {
 
         root.setVisible(true);
         root.setResizable(false);
+        update();
     }
 
     private void createComponents() {

@@ -1,8 +1,9 @@
 package com.company.ui;
 
-import java.awt.*;
+import com.company.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.util.List;
 
 public class UI {
     private JFrame root = new JFrame();
@@ -11,7 +12,7 @@ public class UI {
     
     public UI() {
         root.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        root.setSize(1280,720);
+        root.setSize(1280,750);
         root.setLayout(null);
 
         createComponents();
@@ -45,6 +46,10 @@ public class UI {
 
     public BuildingPanel Building() {
         return building;
+    }
+
+    public void SetLiftListForConfig(List<Lift> lifts) {
+        sidebar.SetLiftListForConfig(lifts);
     }
 
     private void Start() {
