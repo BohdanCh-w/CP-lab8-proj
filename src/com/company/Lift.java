@@ -1,6 +1,7 @@
 package com.company;
 
 import com.company.strategy.IElevatorStrategy;
+import com.company.strategy.NoNewStrategy;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -13,19 +14,34 @@ public class Lift {
     private ArrayList<Passanger> liftPassengers;
     private IElevatorStrategy strategy;
     private Integer currentWeight;
-
     private boolean isMoving;
+    private int speed;
 
-    public Lift(Integer mv, Integer mpc, boolean isMoving){
+    public Lift() {
+          maxWeight = 400;
+          maxPeopleCount = 5;
+          currentFloor = Emulation.getInstance().getBuilding().getFloorList().get(0);
+          destinationFloor = Emulation.getInstance().getBuilding().getFloorList().get(1);
+          liftPassengers = new ArrayList<>();
+          strategy = new NoNewStrategy();
+          currentWeight = 0;
+          isMoving = false;
+          speed = 0;
+    }
+
+    public Lift(Integer mv, Integer mpc, boolean isMoving, int speed){
         this.maxWeight = mv;
         this.maxPeopleCount = mpc;
         this.isMoving = isMoving;
+        this.speed = speed;
         this.currentFloor = Emulation.getInstance().getBuilding().getFloorList().get(0);
         this.liftPassengers = new ArrayList<>();
     }
 
     public void MoveElevator(){
-
+        while(liftPassengers.size() != 0){
+            moveToFloor(liftPassengers.get(0).getDestinationFloor());
+        }
     }
 
     //їзда до поверху призначення
@@ -35,11 +51,13 @@ public class Lift {
         while (this.currentFloor!=this.destinationFloor){
             moveToNextDoorFloor(Emulation.getInstance().getBuilding().getFloorList(), this.currentFloor.getFloorNumber()-this.destinationFloor.getFloorNumber());
         }
+        isMoving = false;
     }
     //strategy 1
     public void notifyFloor(){
         if (destinationFloor == currentFloor){
-            //currentFloor.AddPassLift(this);
+            destinationFloor.RemovePassLift(this);
+            strategy.LoadPassengers(this, destinationFloor);
         };
     }
     //їзда до наступного поверху
@@ -119,5 +137,13 @@ public class Lift {
 
     public void setMoving(boolean moving) {
         isMoving = moving;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 }

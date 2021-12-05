@@ -29,7 +29,7 @@ public class Floor {
 
         int weight = random.nextInt(50) + 50;
 
-        return new Passanger(1, destinationFloor, weight, currentFloor);
+        return new Passanger(destinationFloor, weight, currentFloor);
     }
 
     private Lift ChooseLift(){
@@ -63,14 +63,16 @@ public class Floor {
         return queue;
     }
 
-    public void RemovePassLift(Lift l, Floor floor){
+    public void RemovePassLift(Lift l){
          ArrayList<Passanger> temp = l.getLiftPassengers();
-         var outPassengers = temp.stream().filter(passenger -> passenger.getCurrentFloor() == floor)
+         var outPassengers = temp.stream().filter(passenger -> passenger.getCurrentFloor() == this)
                  .collect(Collectors.toList());
 
          temp.removeAll(outPassengers);
-
          l.setLiftPassengers(temp);
+
+         int weight = temp.stream().map(Passanger::getWeight).reduce(0, Integer::sum);
+         l.setCurrentWeight(weight);
     }
     // посадка пасажира з черги у певний ліфт
     public void AddPassLift(Lift l){
