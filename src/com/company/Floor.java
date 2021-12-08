@@ -13,25 +13,6 @@ public class Floor {
         this.queue = new HashMap<>();
     }
 
-    public static Passanger CreatePassenger(Building building){
-        Random random = new Random();
-
-        int destinationNumber = random.nextInt(building.getFloorList().size() - 1);
-        Floor destinationFloor = building.getFloorList().stream().filter(floor -> floor.floorNumber == destinationNumber)
-                .collect(Collectors.toList()).get(0);
-
-        int currentFloorNumber;
-        do {
-            currentFloorNumber = random.nextInt(building.getFloorList().size() - 1);
-        } while (currentFloorNumber == destinationNumber);
-
-        Floor currentFloor = building.getFloorList().get(currentFloorNumber);
-
-        int weight = random.nextInt(50) + 50;
-
-        return new Passanger(currentFloor, destinationFloor, weight);
-    }
-
     private Lift ChooseLift(){
         var first = queue.entrySet().iterator().next();
 
@@ -59,10 +40,6 @@ public class Floor {
         queue.put(lift, que);
     }
 
-    public HashMap<Lift, ArrayDeque<Passanger>> getQueue() {
-        return queue;
-    }
-
     public void RemovePassLift(Lift l){
          ArrayList<Passanger> temp = l.getLiftPassengers();
          var outPassengers = temp.stream().filter(passenger -> passenger.getCurrentFloor() == this)
@@ -86,6 +63,9 @@ public class Floor {
         }
     }
 
+    public HashMap<Lift, ArrayDeque<Passanger>> getQueue() {
+        return queue;
+    }
     public Integer getFloorNumber() {
         return floorNumber;
     }
