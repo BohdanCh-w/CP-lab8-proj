@@ -1,12 +1,14 @@
 package com.company;
 
+import com.company.ui.UI;
+
 import java.util.ArrayList;
 
 public class Emulation {
+    private UI ui;
     private Building building;
     private Boolean state;
     private Integer spawnSpeed;
-    private Integer liftSpeed;
     private ArrayList<Thread> liftThreads;
     private static Emulation emulation;
 
@@ -15,15 +17,7 @@ public class Emulation {
         this.state = false;
         this.spawnSpeed = null;
         this.liftThreads = new ArrayList<>();
-        this.liftSpeed = null;
-    }
-
-    public Building getBuilding() {
-        return building;
-    }
-
-    public void setBuilding(Building building) {
-        this.building = building;
+        this.ui = new UI();
     }
 
     public static Emulation getInstance() {
@@ -31,9 +25,11 @@ public class Emulation {
             emulation = new Emulation();
         return emulation;
     }
-    public void SpawnPassenger(){
+
+    public void Start(){
 
     }
+
     public void Stop(){
 
     }
@@ -41,31 +37,23 @@ public class Emulation {
 
     }
 
-    public void setSpawnSpeed(Integer spawnSpeed) {
-        this.spawnSpeed = spawnSpeed;
+    public Building getBuilding() {
+        return building;
     }
-
-    public void setState(Boolean state) {
-        this.state = state;
-    }
-
-    public void setLiftSpeed(Integer liftSpeed) {
-        this.liftSpeed = liftSpeed;
-    }
-
     public Boolean getState() {
         return state;
     }
-
-    public Integer getLiftSpeed() {
-        return liftSpeed;
-    }
-
     public Integer getSpawnSpeed() {
         return spawnSpeed;
     }
 
-    public ArrayList<Thread> getLiftThreads() {
-        return liftThreads;
+    public void setBuilding(Building building) {
+        this.building = building;
+    }
+    public void setSpawnSpeed(Integer spawnSpeed) {
+        this.spawnSpeed = spawnSpeed;
+    }
+    public void setState(Boolean state) {
+        this.state = state;
     }
 }

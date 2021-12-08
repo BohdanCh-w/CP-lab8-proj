@@ -13,7 +13,7 @@ public class Floor {
         this.queue = new HashMap<>();
     }
 
-    public Passanger CreatePassenger(Building building){
+    public static Passanger CreatePassenger(Building building){
         Random random = new Random();
 
         int destinationNumber = random.nextInt(building.getFloorList().size() - 1);
@@ -29,7 +29,7 @@ public class Floor {
 
         int weight = random.nextInt(50) + 50;
 
-        return new Passanger(destinationFloor, weight, currentFloor);
+        return new Passanger(currentFloor, destinationFloor, weight);
     }
 
     private Lift ChooseLift(){
@@ -85,10 +85,11 @@ public class Floor {
             queue.get(l).removeFirst();
         }
     }
-    public void setFloorNumber(Integer floorNumber) {
-        this.floorNumber = floorNumber;
-    }
+
     public Integer getFloorNumber() {
         return floorNumber;
+    }
+    public void setFloorNumber(Integer floorNumber) {
+        this.floorNumber = floorNumber;
     }
 }
