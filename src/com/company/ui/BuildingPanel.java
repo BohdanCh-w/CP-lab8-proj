@@ -105,7 +105,7 @@ public class BuildingPanel {
         if(queue.size() > passangerNumber) {
             for(int i = queue.size()-1; i > passangerNumber; --i) {
                 root.remove(queue.get(i));
-                root.revalidate();
+                root.repaint();
                 queue.remove(i);
             }
         } else if(queue.size() < passangerNumber) {
