@@ -64,6 +64,8 @@ public class BuildingPanel {
     }
 
     public void CreateBuilding(int floorCount, int liftCount) {
+        root.removeAll();
+        root.repaint();
         lifts = new ArrayList<JLabel>();
         for(int i = 0; i < liftCount; ++i) {
             var lift = new JLabel(liftImg);
@@ -103,9 +105,9 @@ public class BuildingPanel {
     public void SetPassangerNumber(int floor, int lift, int passangerNumber) {
         var queue = passangers.get(floor).get(lift);
         if(queue.size() > passangerNumber) {
-            for(int i = queue.size()-1; i > passangerNumber; --i) {
+            for(int i = queue.size()-1; i >= passangerNumber; --i) {
                 root.remove(queue.get(i));
-                root.revalidate();
+                root.repaint();
                 queue.remove(i);
             }
         } else if(queue.size() < passangerNumber) {

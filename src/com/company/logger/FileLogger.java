@@ -27,6 +27,7 @@ public class FileLogger extends BaseLogger{
 
                 BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
                 writer.write(dtf.format(now) + " " + data + " Lvl: " + level);
+                writer.close();
             } catch (IOException ex) {
                 System.out.println("File writing exception: " + ex.getMessage());
                 System.out.println("Stack trace: " + Arrays.toString(ex.getStackTrace()));
