@@ -1,23 +1,110 @@
 package com.company;
 
+import com.company.strategy.IElevatorStrategy;
+import com.company.strategy.NoNewStrategy;
+
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 public class Lift {
     private Integer maxWeight;
-    private Integer maxWidth;
-    private Integer maxLength;
-    private Integer maxHeight;
     private Integer maxPeopleCount;
-    private Float speed;
+    private Floor currentFloor;
+    private Floor destinationFloor;
+    private ArrayList<Passanger> liftPassengers;
+    private IElevatorStrategy strategy;
+    private Integer currentWeight;
+    private boolean isMoving;
+    private Integer speed;
 
+    public Lift() {
+          maxWeight = 400;
+          maxPeopleCount = 5;
+          currentFloor = Emulation.getInstance().getBuilding().getFloorList().get(0);
+          destinationFloor = Emulation.getInstance().getBuilding().getFloorList().get(1);
+          liftPassengers = new ArrayList<>();
+          strategy = new NoNewStrategy();
+          currentWeight = 0;
+          isMoving = false;
+          speed = 0;
+    }
+
+    public Lift(Integer mv, Integer mpc, boolean isMoving, int speed){
+        this.maxWeight = mv;
+        this.maxPeopleCount = mpc;
+        this.isMoving = isMoving;
+        this.speed = speed;
+        this.currentFloor = Emulation.getInstance().getBuilding().getFloorList().get(0);
+        this.liftPassengers = new ArrayList<>();
+    }
+
+    public void MoveElevator(){
+        while(liftPassengers.size() != 0){
+            moveToFloor(liftPassengers.get(0).getDestinationFloor());
+        }
+    }
+
+    //їзда до поверху призначення
     public void moveToFloor(Floor f){
-
+        this.destinationFloor = f;
+        isMoving = true;
+        while (this.currentFloor!=this.destinationFloor){
+            moveToNextDoorFloor(Emulation.getInstance().getBuilding().getFloorList(), this.currentFloor.getFloorNumber()-this.destinationFloor.getFloorNumber());
+        }
+        isMoving = false;
+    }
+    //strategy 1
+    public void notifyFloor(){
+        if (destinationFloor == currentFloor){
+            destinationFloor.RemovePassLift(this);
+            strategy.LoadPassengers(this, destinationFloor);
+        };
+    }
+    //їзда до наступного поверху
+    public void moveToNextDoorFloor(ArrayList<Floor> floorList, Integer direction){
+        if (direction>0){
+            this.currentFloor = floorList.stream().
+                    filter((el)->(el.getFloorNumber() - currentFloor.getFloorNumber())==1).collect(Collectors.toList()).get(0);
+        }
+        else if (direction<0){
+            this.currentFloor = floorList.stream().
+                    filter((el)->(el.getFloorNumber() - currentFloor.getFloorNumber())==-1).collect(Collectors.toList()).get(0);
+        }
+        notifyFloor();
+    }
+    public void leaveLift(){
+        //liftPassengers.stream().filter((el)->el.getDestinationFloor().equals(this.destinationFloor));
+    }
+    public Floor getCurrentFloor() {
+        return currentFloor;
     }
 
-    public void setMaxHeight(Integer maxHeight) {
-        this.maxHeight = maxHeight;
+    public Floor getDestinationFloor() {
+        return destinationFloor;
     }
 
-    public void setMaxLength(Integer maxLength) {
-        this.maxLength = maxLength;
+    public Integer getCurrentWeight() {
+        return currentWeight;
+    }
+
+    public ArrayList<Passanger> getLiftPassengers() {
+        return liftPassengers;
+    }
+
+    public void setLiftPassengers(ArrayList<Passanger> liftPassengers) {
+        this.liftPassengers = liftPassengers;
+    }
+
+    public void setCurrentWeight(Integer currentWeight) {
+        this.currentWeight = currentWeight;
+    }
+
+    public void setDestinationFloor(Floor destinationFloor) {
+        this.destinationFloor = destinationFloor;
+    }
+
+    public void setCurrentFloor(Floor currentFloor) {
+        this.currentFloor = currentFloor;
     }
 
     public void setMaxWeight(Integer maxWeight) {
@@ -28,35 +115,35 @@ public class Lift {
         this.maxPeopleCount = maxPeopleCount;
     }
 
-    public void setMaxWidth(Integer maxWidth) {
-        this.maxWidth = maxWidth;
+    public IElevatorStrategy getStrategy() {
+        return strategy;
     }
 
-    public void setSpeed(Float speed) {
-        this.speed = speed;
-    }
-
-    public Integer getMaxHeight() {
-        return maxHeight;
+    public void setStrategy(IElevatorStrategy strategy) {
+        this.strategy = strategy;
     }
 
     public Integer getMaxWeight() {
         return maxWeight;
     }
 
-    public Integer getMaxLength() {
-        return maxLength;
-    }
-
     public Integer getMaxPeopleCount() {
         return maxPeopleCount;
     }
 
-    public Integer getMaxWidth() {
-        return maxWidth;
+    public boolean isMoving() {
+        return isMoving;
     }
 
-    public Float getSpeed() {
+    public void setMoving(boolean moving) {
+        isMoving = moving;
+    }
+
+    public Integer getSpeed() {
         return speed;
+    }
+
+    public void setSpeed(Integer speed) {
+        this.speed = speed;
     }
 }
