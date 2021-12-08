@@ -1,6 +1,4 @@
 package com.company;
-
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Passanger {
