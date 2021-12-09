@@ -1,5 +1,7 @@
 package com.company.ui;
 
+import com.company.logger.LogLvl;
+
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -60,6 +62,7 @@ public class BuildingPanel {
         }
         Image personDimg = personBuffImg.getScaledInstance(personWidth, personHeight, Image.SCALE_SMOOTH);
         personImg = new ImageIcon(personDimg);
+
         // TODO: Console logger "UI resourses loaded"
     }
 
