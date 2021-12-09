@@ -1,7 +1,10 @@
 package com.company;
 
+import com.company.logger.LogLvl;
+
 import java.util.Timer;
 import java.util.TimerTask;
+import static com.company.Program.logger;
 
 public class LiftMovingThread extends Thread{
     private Lift lift;
@@ -29,6 +32,7 @@ public class LiftMovingThread extends Thread{
         while(Emulation.getInstance().getState() != Emulation.State.STOPPED && isActive){
             liftMoving.schedule(liftTask, lift.getSpeed() * 1000);
         }
+        logger.Log("Program has started", LogLvl.LOG_FILE);
     }
 
     public boolean terminate(){
