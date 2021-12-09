@@ -5,31 +5,11 @@ import java.util.stream.Collectors;
 
 public class Floor {
     private Integer floorNumber;
-    //private HashMap<Lift, Boolean> lifts;
     private HashMap<Lift, ArrayDeque<Passanger>> queue;
 
     public Floor(Integer fn){
         this.floorNumber = fn;
         this.queue = new HashMap<>();
-    }
-
-    public static Passanger CreatePassenger(Building building){
-        Random random = new Random();
-
-        int destinationNumber = random.nextInt(building.getFloorList().size() - 1);
-        Floor destinationFloor = building.getFloorList().stream().filter(floor -> floor.floorNumber == destinationNumber)
-                .collect(Collectors.toList()).get(0);
-
-        int currentFloorNumber;
-        do {
-            currentFloorNumber = random.nextInt(building.getFloorList().size() - 1);
-        } while (currentFloorNumber == destinationNumber);
-
-        Floor currentFloor = building.getFloorList().get(currentFloorNumber);
-
-        int weight = random.nextInt(50) + 50;
-
-        return new Passanger(currentFloor, destinationFloor, weight);
     }
 
     private Lift ChooseLift(){
@@ -59,10 +39,6 @@ public class Floor {
         queue.put(lift, que);
     }
 
-    public HashMap<Lift, ArrayDeque<Passanger>> getQueue() {
-        return queue;
-    }
-
     public void RemovePassLift(Lift l){
          ArrayList<Passanger> temp = l.getLiftPassengers();
          var outPassengers = temp.stream().filter(passenger -> passenger.getCurrentFloor() == this)
@@ -74,6 +50,7 @@ public class Floor {
          int weight = temp.stream().map(Passanger::getWeight).reduce(0, Integer::sum);
          l.setCurrentWeight(weight);
     }
+
     // посадка пасажира з черги у певний ліфт
     public void AddPassLift(Lift l){
         while (!queue.get(l).isEmpty() &&
@@ -86,6 +63,9 @@ public class Floor {
         }
     }
 
+    public HashMap<Lift, ArrayDeque<Passanger>> getQueue() {
+        return queue;
+    }
     public Integer getFloorNumber() {
         return floorNumber;
     }
