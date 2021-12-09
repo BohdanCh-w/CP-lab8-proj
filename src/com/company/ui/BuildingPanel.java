@@ -31,6 +31,9 @@ public class BuildingPanel {
     private final int personHeight = 53;
     private final int personMargin = 23;
 
+    private final String liftImgPath = "src\\com\\company\\ui\\assets\\lift.png";
+    private final String personImgPath = "src\\com\\company\\ui\\assets\\person.png";
+
     public BuildingPanel() {
         root.setLayout(new GridBagLayout());
         root.setPreferredSize(new Dimension(windowWidth, windowHeight));
@@ -41,7 +44,7 @@ public class BuildingPanel {
     private void loadResourses() {
         BufferedImage liftBuffImg = null;
         try {
-            liftBuffImg = ImageIO.read(new File("src\\com\\company\\ui\\assets\\lift.png"));
+            liftBuffImg = ImageIO.read(new File(liftImgPath));
         } catch (IOException e) {
             System.getProperty("user.dir");
             e.printStackTrace();
@@ -51,12 +54,13 @@ public class BuildingPanel {
 
         BufferedImage personBuffImg = null;
         try {
-            personBuffImg = ImageIO.read(new File("src\\com\\company\\ui\\assets\\person.png"));
+            personBuffImg = ImageIO.read(new File(personImgPath));
         } catch (IOException e) {
             e.printStackTrace();
         }
         Image personDimg = personBuffImg.getScaledInstance(personWidth, personHeight, Image.SCALE_SMOOTH);
         personImg = new ImageIcon(personDimg);
+        // TODO: Console logger "UI resourses loaded"
     }
 
     public JPanel getComponent() {
@@ -93,6 +97,7 @@ public class BuildingPanel {
                 passangers.get(i).set(j, new ArrayList<JLabel>());
             }
         }
+        // TODO: Console logger "UI building created"
     }
 
     public void MoveLift(int index, int floor) {

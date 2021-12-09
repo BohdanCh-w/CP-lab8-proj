@@ -19,6 +19,7 @@ public class UI {
         drawComponents();
 
         root.setVisible(true);
+        // TODO: File logger "UI Loaded"
     }
 
     private void createComponents() {
