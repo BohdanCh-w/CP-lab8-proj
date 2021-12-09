@@ -7,13 +7,8 @@ import com.company.ui.UI;
 import com.company.ui.UI;
 
 public class Program {
-    public static void startStop(){
-        isActive = !isActive;
-    }
-
-    public static boolean isActive = false;
-
     public static void main(String[] args) {
+        Emulation.getInstance();
         Emulation.getInstance();
 
     }

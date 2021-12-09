@@ -1,5 +1,7 @@
 package com.company;
 
+import com.company.logger.ErrorLogger;
+import com.company.logger.Logger;
 import com.company.ui.UI;
 
 import javax.swing.*;
@@ -47,6 +49,8 @@ public class Emulation {
                     ((JButton)(e.getSource())).setText("Resume");
                     Resume();
                 }
+
+                // TODO: FILE/CONSOLE LOGGER
             }
         });
 
@@ -56,8 +60,15 @@ public class Emulation {
                     passengerTimer.cancel();
                     for(int i=0; i<liftThreads.size();i++){
                         liftThreads.get(i).terminate();
+                        try{
+                            liftThreads.get(i).join();
+                        }
+                        catch (Exception exception){
+                            // TODO: ERROR LOG
+                        }
                     }
                 }
+                System.exit(1);
             }
         });
     }
@@ -111,8 +122,10 @@ public class Emulation {
         return spawnSpeed;
     }
 
-    public void setBuilding(Building building) {
-        this.building = building;
+    public void setBuilding() {
+        int floorCount = this.ui.Configuration().getFloorsCount();
+        int liftCount = this.ui.Configuration().getLiftsCount();
+        this.building = new Building(floorCount, liftCount);
     }
     public void setSpawnSpeed(Integer spawnSpeed) {
         this.spawnSpeed = spawnSpeed;

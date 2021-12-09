@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 public class Floor {
     private Integer floorNumber;
-    //private HashMap<Lift, Boolean> lifts;
     private HashMap<Lift, ArrayDeque<Passanger>> queue;
 
     public Floor(Integer fn){
@@ -51,6 +50,7 @@ public class Floor {
          int weight = temp.stream().map(Passanger::getWeight).reduce(0, Integer::sum);
          l.setCurrentWeight(weight);
     }
+
     // посадка пасажира з черги у певний ліфт
     public void AddPassLift(Lift l){
         while (!queue.get(l).isEmpty() &&
