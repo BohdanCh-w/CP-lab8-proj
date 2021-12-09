@@ -15,7 +15,7 @@ public class Lift {
     private IElevatorStrategy strategy;
     private Integer currentWeight;
     private boolean isMoving;
-    private int speed;
+    private Integer speed;
 
     public Lift() {
           maxWeight = 400;
