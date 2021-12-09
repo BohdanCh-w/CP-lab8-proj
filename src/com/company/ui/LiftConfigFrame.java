@@ -165,7 +165,7 @@ public class LiftConfigFrame {
         }
         eWeight.setText(lift.getMaxWeight().toString());
         ePassangers.setText(lift.getMaxPeopleCount().toString());
-        eSpeed.setText(lift.getSpeed().toString());
+        eSpeed.setText(lift.getSpeed().toString()); 
     }
 
     private void save() {
@@ -178,5 +178,6 @@ public class LiftConfigFrame {
         lift.setMaxWeight(Integer.parseInt(eWeight.getText()));
         lift.setMaxPeopleCount(Integer.parseInt(ePassangers.getText()));
         lift.setSpeed(Integer.parseInt(eSpeed.getText()));
+        // TODO: File logger "Lift data changed"
     }
 }
