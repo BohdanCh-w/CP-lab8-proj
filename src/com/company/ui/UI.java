@@ -1,8 +1,9 @@
 package com.company.ui;
 
-import java.awt.*;
+import com.company.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.util.List;
 
 public class UI {
     private JFrame root = new JFrame();
@@ -10,14 +11,15 @@ public class UI {
     private ControlPanel sidebar;
     
     public UI() {
-        root.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        root.setSize(1280,720);
+        root.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        root.setSize(1280,750);
         root.setLayout(null);
 
         createComponents();
         drawComponents();
 
         root.setVisible(true);
+        // TODO: File logger "UI Loaded"
     }
 
     private void createComponents() {
@@ -26,11 +28,6 @@ public class UI {
         sidebar.addBuildActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Build();
-            }
-        });
-        sidebar.addStartActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Start();
             }
         });
     }
@@ -47,8 +44,26 @@ public class UI {
         return building;
     }
 
-    private void Start() {
+    public ControlPanel Configuration() {
+        return sidebar;
+    }
 
+    public void SetLiftListForConfig(List<Lift> lifts) {
+        sidebar.SetLiftListForConfig(lifts);
+    }
+
+    public void addOnClose(ActionListener listener) {
+        root.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                root.dispose();
+                listener.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null) {});
+            }
+        });
+    }
+
+    public void addOnStart(ActionListener listener) {
+        sidebar.addStartActionListener(listener);
     }
 
     private void Build() {

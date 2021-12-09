@@ -1,29 +1,75 @@
 package com.company;
 
+import com.company.logger.*;
+import com.company.ui.UI;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Timer;
 
 public class Emulation {
+    private UI ui;
     private Building building;
-    private Boolean state;
+    private State state;
     private Integer spawnSpeed;
-    private Integer liftSpeed;
-    private ArrayList<Thread> liftThreads;
+    private ArrayList<LiftMovingThread> liftThreads;
     private static Emulation emulation;
+    private Timer passengerTimer;
+    private SpawnPassengersThread passengerGenerator;
+    private BaseLogger logger;
+
+    public enum State{
+        INITIALIZED,
+        NON_INITIALIZED,
+        STOPPED
+    }
 
     private Emulation (){
         this.building = new Building();
-        this.state = false;
+        this.state = State.NON_INITIALIZED;
         this.spawnSpeed = null;
         this.liftThreads = new ArrayList<>();
-        this.liftSpeed = null;
-    }
+        this.ui = new UI();
+        this.logger = new ConsoleLogger(new FileLogger(new ErrorLogger(null), "logger.txt"));
+        this.passengerTimer = new Timer();
+        this.passengerGenerator = new SpawnPassengersThread();
 
-    public Building getBuilding() {
-        return building;
-    }
+        ui.addOnStart(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(state==State.INITIALIZED) {
+                    ((JButton)(e.getSource())).setText("Stop");
+                    Stop();
+                } else if(state==State.NON_INITIALIZED){
+                    ((JButton)(e.getSource())).setText("Start");
+                    Start();
+                } else{
+                    ((JButton)(e.getSource())).setText("Resume");
+                    Resume();
+                }
 
-    public void setBuilding(Building building) {
-        this.building = building;
+                logger.Log(String.format("Program state changed to: %s", state), LogLvl.LOG_FILE);
+            }
+        });
+
+        ui.addOnClose(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(state!=State.NON_INITIALIZED) {
+                    passengerTimer.cancel();
+                    for(int i=0; i<liftThreads.size();i++){
+                        liftThreads.get(i).terminate();
+                        try{
+                            liftThreads.get(i).join();
+                        }
+                        catch (Exception exception){
+                            logger.Log(String.format("Error while exit: %s", exception.getMessage()), LogLvl.LOG_ERROR);
+                        }
+                    }
+                }
+                System.exit(0);
+            }
+        });
     }
 
     public static Emulation getInstance() {
@@ -31,41 +77,59 @@ public class Emulation {
             emulation = new Emulation();
         return emulation;
     }
-    public void SpawnPassenger(){
 
+    public void Start(){
+        state = State.INITIALIZED;
+        passengerTimer.schedule(passengerGenerator, spawnSpeed * 1000, spawnSpeed * 1000);
+
+        for(int i=0; i<building.getLiftList().size(); i++){
+            liftThreads.add(new LiftMovingThread(building.getLiftList().get(i), i));
+            liftThreads.get(i).start();
+        }
     }
+
     public void Stop(){
+        state = State.STOPPED;
+        passengerTimer.cancel();
 
+        for(int i=0; i<liftThreads.size(); i++){
+            if(liftThreads.get(i).isAlive()){
+                liftThreads.get(i).interrupt();
+            }
+        }
     }
+
     public void Resume(){
+        state = State.INITIALIZED;
+        passengerTimer.schedule(passengerGenerator, spawnSpeed * 1000, spawnSpeed * 1000);
 
+        for(int i=0; i<liftThreads.size(); i++){
+            if(liftThreads.get(i).isInterrupted()){
+                liftThreads.get(i).start();
+            }
+        }
     }
 
-    public void setSpawnSpeed(Integer spawnSpeed) {
-        this.spawnSpeed = spawnSpeed;
+    public UI getUi() {return ui;}
+    public Building getBuilding() {
+        return building;
     }
-
-    public void setState(Boolean state) {
-        this.state = state;
-    }
-
-    public void setLiftSpeed(Integer liftSpeed) {
-        this.liftSpeed = liftSpeed;
-    }
-
-    public Boolean getState() {
+    public State getState() {
         return state;
     }
-
-    public Integer getLiftSpeed() {
-        return liftSpeed;
-    }
-
     public Integer getSpawnSpeed() {
         return spawnSpeed;
     }
 
-    public ArrayList<Thread> getLiftThreads() {
-        return liftThreads;
+    public void setBuilding() {
+        int floorCount = this.ui.Configuration().getFloorsCount();
+        int liftCount = this.ui.Configuration().getLiftsCount();
+        this.building = new Building(floorCount, liftCount);
+    }
+    public void setSpawnSpeed(Integer spawnSpeed) {
+        this.spawnSpeed = spawnSpeed;
+    }
+    public void setState(State state) {
+        this.state = state;
     }
 }
