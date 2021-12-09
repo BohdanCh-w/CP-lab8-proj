@@ -133,4 +133,26 @@ public class BuildingPanel {
             }
         }
     }
+
+    public void changePassangerNumber(int floor, int lift, int passangerNumber) {
+        var queue = passangers.get(floor).get(lift);
+        if(passangerNumber < 0) {
+            for(int i = 0; i > passangerNumber; --i) {
+                root.remove(queue.get(queue.size() - 1));
+                root.repaint();
+                queue.remove(queue.size() - 1);
+            }
+        } else {
+            for(int i = 0; i < passangerNumber; ++i) {
+                var person = new JLabel(personImg);
+                queue.add(person);
+                root.add(person);
+                person.setBounds(
+                    windowWidth-lift*liftMargin-15-liftWidth-personWidth-(queue.size()-1)*personMargin,
+                    windowHeight-10-floorHeight*floor-personHeight,
+                    personWidth, personHeight
+                );
+            }
+        }
+    }
 }
