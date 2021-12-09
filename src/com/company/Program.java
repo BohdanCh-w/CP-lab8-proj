@@ -52,11 +52,11 @@ public class Program {
 
         try{Thread.sleep(200);} catch(Exception e) {}
         ui.Building().CreateBuilding(7, 6);
-        ui.Building().SetPassangerNumber(2, 3, 5);
+        ui.Building().changePassangerNumber(2, 3, 2);
         try{Thread.sleep(800);} catch(Exception e) {}
-        ui.Building().SetPassangerNumber(2, 3, 7);
+        ui.Building().changePassangerNumber(2, 3, 2);
         try{Thread.sleep(800);} catch(Exception e) {}
-        ui.Building().SetPassangerNumber(2, 3, 2);
+        ui.Building().changePassangerNumber(2, 3, -3);
         ui.Building().MoveLift(3, 2);
     }
 }
