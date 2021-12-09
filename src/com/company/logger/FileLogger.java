@@ -10,6 +10,11 @@ import java.util.Arrays;
 public class FileLogger extends BaseLogger{
     private String filePath;
 
+    public FileLogger(Logger next, String filePath) {
+        super(next);
+        this.filePath = filePath;
+    }
+
     public String getFilePath() {
         return filePath;
     }

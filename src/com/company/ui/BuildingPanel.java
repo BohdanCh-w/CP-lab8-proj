@@ -1,5 +1,7 @@
 package com.company.ui;
 
+import com.company.logger.LogLvl;
+
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import java.awt.image.BufferedImage;
+
+import static com.company.Program.logger;
 
 public class BuildingPanel {
     private JPanel root = new JPanel();
@@ -31,6 +35,9 @@ public class BuildingPanel {
     private final int personHeight = 53;
     private final int personMargin = 23;
 
+    private final String liftImgPath = "src\\com\\company\\ui\\assets\\lift.png";
+    private final String personImgPath = "src\\com\\company\\ui\\assets\\person.png";
+
     public BuildingPanel() {
         root.setLayout(new GridBagLayout());
         root.setPreferredSize(new Dimension(windowWidth, windowHeight));
@@ -41,7 +48,7 @@ public class BuildingPanel {
     private void loadResourses() {
         BufferedImage liftBuffImg = null;
         try {
-            liftBuffImg = ImageIO.read(new File("src\\com\\company\\ui\\assets\\lift.png"));
+            liftBuffImg = ImageIO.read(new File(liftImgPath));
         } catch (IOException e) {
             System.getProperty("user.dir");
             e.printStackTrace();
@@ -51,12 +58,14 @@ public class BuildingPanel {
 
         BufferedImage personBuffImg = null;
         try {
-            personBuffImg = ImageIO.read(new File("src\\com\\company\\ui\\assets\\person.png"));
+            personBuffImg = ImageIO.read(new File(personImgPath));
         } catch (IOException e) {
             e.printStackTrace();
         }
         Image personDimg = personBuffImg.getScaledInstance(personWidth, personHeight, Image.SCALE_SMOOTH);
         personImg = new ImageIcon(personDimg);
+
+        logger.Log(String.format("UI resources loaded"), LogLvl.LOG_CONSOLE);
     }
 
     public JPanel getComponent() {
@@ -93,6 +102,7 @@ public class BuildingPanel {
                 passangers.get(i).set(j, new ArrayList<JLabel>());
             }
         }
+        logger.Log("UI building created", LogLvl.LOG_CONSOLE);
     }
 
     public void MoveLift(int index, int floor) {

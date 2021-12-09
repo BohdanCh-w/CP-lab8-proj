@@ -6,7 +6,9 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.List;
 import com.company.*;
+import com.company.logger.LogLvl;
 import com.company.strategy.*;
+import static com.company.Program.logger;
 
 public class LiftConfigFrame {
     private JFrame root = new JFrame();
@@ -165,7 +167,7 @@ public class LiftConfigFrame {
         }
         eWeight.setText(lift.getMaxWeight().toString());
         ePassangers.setText(lift.getMaxPeopleCount().toString());
-        eSpeed.setText(lift.getSpeed().toString());
+        eSpeed.setText(lift.getSpeed().toString()); 
     }
 
     private void save() {
@@ -178,5 +180,6 @@ public class LiftConfigFrame {
         lift.setMaxWeight(Integer.parseInt(eWeight.getText()));
         lift.setMaxPeopleCount(Integer.parseInt(ePassangers.getText()));
         lift.setSpeed(Integer.parseInt(eSpeed.getText()));
+        logger.Log("Lift data changed", LogLvl.LOG_FILE);
     }
 }

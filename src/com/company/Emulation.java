@@ -1,7 +1,6 @@
 package com.company;
 
-import com.company.logger.ErrorLogger;
-import com.company.logger.Logger;
+import com.company.logger.*;
 import com.company.ui.UI;
 
 import javax.swing.*;
@@ -10,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Timer;
 
+import static com.company.Program.logger;
+
 public class Emulation {
     private UI ui;
     private Building building;
@@ -17,7 +18,6 @@ public class Emulation {
     private Integer spawnSpeed;
     private ArrayList<LiftMovingThread> liftThreads;
     private static Emulation emulation;
-
     private Timer passengerTimer;
     private SpawnPassengersThread passengerGenerator;
 
@@ -33,7 +33,6 @@ public class Emulation {
         this.spawnSpeed = null;
         this.liftThreads = new ArrayList<>();
         this.ui = new UI();
-
         this.passengerTimer = new Timer();
         this.passengerGenerator = new SpawnPassengersThread();
 
@@ -50,7 +49,7 @@ public class Emulation {
                     Resume();
                 }
 
-                // TODO: FILE/CONSOLE LOGGER
+                logger.Log(String.format("Program state changed to: %s", state), LogLvl.LOG_FILE);
             }
         });
 
@@ -64,11 +63,11 @@ public class Emulation {
                             liftThreads.get(i).join();
                         }
                         catch (Exception exception){
-                            // TODO: ERROR LOG
+                            logger.Log(String.format("Error while exit: %s", exception.getMessage()), LogLvl.LOG_ERROR);
                         }
                     }
                 }
-                System.exit(1);
+                System.exit(0);
             }
         });
     }

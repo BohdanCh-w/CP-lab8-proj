@@ -1,9 +1,12 @@
 package com.company.ui;
 
 import com.company.*;
+import com.company.logger.LogLvl;
+
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.List;
+import static com.company.Program.logger;
 
 public class UI {
     private JFrame root = new JFrame();
@@ -19,6 +22,7 @@ public class UI {
         drawComponents();
 
         root.setVisible(true);
+        logger.Log("UI Loaded", LogLvl.LOG_FILE);
     }
 
     private void createComponents() {
