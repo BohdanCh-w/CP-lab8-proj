@@ -14,6 +14,7 @@ public class Program {
     public static boolean isActive = false;
 
     public static void main(String[] args) {
-        UI mainUI = new UI();
+        Emulation.getInstance();
+
     }
 }
