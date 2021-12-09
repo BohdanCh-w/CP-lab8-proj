@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Timer;
 
+import static com.company.Program.logger;
+
 public class Emulation {
     private UI ui;
     private Building building;
@@ -18,7 +20,6 @@ public class Emulation {
     private static Emulation emulation;
     private Timer passengerTimer;
     private SpawnPassengersThread passengerGenerator;
-    private BaseLogger logger;
 
     public enum State{
         INITIALIZED,
@@ -32,7 +33,6 @@ public class Emulation {
         this.spawnSpeed = null;
         this.liftThreads = new ArrayList<>();
         this.ui = new UI();
-        this.logger = new ConsoleLogger(new FileLogger(new ErrorLogger(null), "logger.txt"));
         this.passengerTimer = new Timer();
         this.passengerGenerator = new SpawnPassengersThread();
 

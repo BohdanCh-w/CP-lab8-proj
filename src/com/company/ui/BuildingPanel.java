@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Vector;
 import java.awt.image.BufferedImage;
 
+import static com.company.Program.logger;
+
 public class BuildingPanel {
     private JPanel root = new JPanel();
     private List<JLabel> lifts;
@@ -63,7 +65,7 @@ public class BuildingPanel {
         Image personDimg = personBuffImg.getScaledInstance(personWidth, personHeight, Image.SCALE_SMOOTH);
         personImg = new ImageIcon(personDimg);
 
-        // TODO: Console logger "UI resourses loaded"
+        logger.Log(String.format("UI resources loaded"), LogLvl.LOG_CONSOLE);
     }
 
     public JPanel getComponent() {
@@ -100,7 +102,7 @@ public class BuildingPanel {
                 passangers.get(i).set(j, new ArrayList<JLabel>());
             }
         }
-        // TODO: Console logger "UI building created"
+        logger.Log("UI building created", LogLvl.LOG_CONSOLE);
     }
 
     public void MoveLift(int index, int floor) {
