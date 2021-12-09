@@ -28,11 +28,6 @@ public class UI {
     private void createComponents() {
         building = new BuildingPanel();
         sidebar = new ControlPanel();
-        sidebar.addBuildActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Build();
-            }
-        });
     }
 
     private void drawComponents() {        
@@ -69,9 +64,7 @@ public class UI {
         sidebar.addStartActionListener(listener);
     }
 
-    private void Build() {
-        int floors = sidebar.getFloorsCount();
-        int lifts = sidebar.getLiftsCount();
-        building.CreateBuilding(floors, lifts);
+    public void addOnBuild(ActionListener listener) {
+        sidebar.addBuildActionListener(listener);
     }
 }
