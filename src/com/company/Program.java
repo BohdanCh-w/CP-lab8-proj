@@ -9,7 +9,7 @@ import com.company.ui.UI;
 public class Program {
     public static void main(String[] args) {
         Emulation.getInstance();
-        Emulation.getInstance();
+        Emulation.getInstance().setBuilding();
 
     }
 }

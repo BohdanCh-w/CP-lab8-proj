@@ -125,7 +125,11 @@ public class Emulation {
     public void setBuilding() {
         int floorCount = this.ui.Configuration().getFloorsCount();
         int liftCount = this.ui.Configuration().getLiftsCount();
+
         this.building = new Building(floorCount, liftCount);
+        this.ui.Building().CreateBuilding(floorCount, liftCount);
+
+        this.ui.Configuration().SetLiftListForConfig(building.getLiftList());
     }
     public void setSpawnSpeed(Integer spawnSpeed) {
         this.spawnSpeed = spawnSpeed;
