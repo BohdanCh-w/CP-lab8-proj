@@ -5,6 +5,8 @@ import com.company.strategy.NoNewStrategy;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+import static com.company.Program.logger;
+import com.company.logger.LogLvl;
 
 public class Lift {
     private Integer maxWeight;
@@ -38,10 +40,17 @@ public class Lift {
 
     public void MoveElevator(){
         if(liftPassengers.size() != 0){
+            logger.Log(String.format("Lift %s moved from %s to %s", 
+                Emulation.getInstance().getBuilding().getLiftList().indexOf(this), 
+                this.getCurrentFloor().getFloorNumber(), 
+                this.getDestinationFloor().getFloorNumber()), LogLvl.LOG_CONSOLE);
             moveToFloor(liftPassengers.get(0).getDestinationFloor());
         }
         else{
             currentFloor.AddPassLift(this);
+            logger.Log(String.format("Lift %s waiting for passangers at %s", 
+                Emulation.getInstance().getBuilding().getLiftList().indexOf(this),
+                this.getCurrentFloor().getFloorNumber()), LogLvl.LOG_CONSOLE);
         }
     }
 
@@ -63,17 +72,27 @@ public class Lift {
     }
     //їзда до наступного поверху
     public void moveToNextDoorFloor(ArrayList<Floor> floorList, Integer direction){
+        try{
+            Thread.sleep(this.getSpeed() * 200);
+        }
+        catch (Exception threadException){
+            logger.Log("Thread problem", LogLvl.LOG_ERROR);
+        }
+        
         if (direction>0){
             this.currentFloor = floorList.stream().
-                    filter((el)->(el.getFloorNumber() - currentFloor.getFloorNumber())==1).collect(Collectors.toList()).get(0);
+            filter((el)->(el.getFloorNumber() - currentFloor.getFloorNumber())==1).collect(Collectors.toList()).get(0);
         }
         else if (direction<0){
             this.currentFloor = floorList.stream().
-                    filter((el)->(el.getFloorNumber() - currentFloor.getFloorNumber())==-1).collect(Collectors.toList()).get(0);
+            filter((el)->(el.getFloorNumber() - currentFloor.getFloorNumber())==-1).collect(Collectors.toList()).get(0);
         }
+        Emulation.getInstance().getUi().Building().MoveLift(                
+                Emulation.getInstance().getBuilding().getLiftList().indexOf(this), 
+                this.currentFloor.getFloorNumber());
         notifyFloor();
     }
-    
+
     public Floor getCurrentFloor() {
         return currentFloor;
     }
