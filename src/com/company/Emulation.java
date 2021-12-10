@@ -66,6 +66,7 @@ public class Emulation {
                         }
                     }
                 }
+                logger.Log(String.format("Program finished"), LogLvl.LOG_FILE);
                 System.exit(0);
             }
         });

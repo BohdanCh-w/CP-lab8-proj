@@ -1,10 +1,5 @@
 package com.company;
 
-import com.company.Building;
-import com.company.Emulation;
-import com.company.Floor;
-import com.company.Passanger;
-
 import java.util.Random;
 import java.util.TimerTask;
 import java.util.stream.Collectors;

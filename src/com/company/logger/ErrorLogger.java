@@ -1,8 +1,5 @@
 package com.company.logger;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-
 public class ErrorLogger extends BaseLogger{
     public ErrorLogger(Logger next) {
         super(next);
