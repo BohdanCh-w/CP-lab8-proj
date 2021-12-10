@@ -15,20 +15,23 @@ public class SpawnPassengersThread extends TimerTask {
         Building building = Emulation.getInstance().getBuilding();
         Random random = new Random();
 
-        int destinationNumber = random.nextInt(building.getFloorList().size() - 1);
+        int destinationNumber = random.nextInt(building.getFloorList().size());
         Floor destinationFloor = building.getFloorList().stream().filter(floor -> floor.getFloorNumber() == destinationNumber)
                 .collect(Collectors.toList()).get(0);
 
         int currentFloorNumber;
         do {
-            currentFloorNumber = random.nextInt(building.getFloorList().size() - 1);
+            currentFloorNumber = random.nextInt(building.getFloorList().size());
         } while (currentFloorNumber == destinationNumber);
 
         Floor currentFloor = building.getFloorList().get(currentFloorNumber);
 
         int weight = random.nextInt(50) + 50;
 
-        building.getFloorList().get(building.getFloorList().indexOf(currentFloor))
+        Lift lift = building.getFloorList().get(building.getFloorList().indexOf(currentFloor))
                 .AddPassengerToQueue(new Passanger(currentFloor, destinationFloor, weight));
+
+        Emulation.getInstance().getUi().Building().changePassangerNumber(currentFloorNumber,
+                Emulation.getInstance().getBuilding().getLiftList().indexOf(lift),1);
     }
 }

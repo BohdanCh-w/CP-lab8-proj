@@ -20,13 +20,11 @@ public class Lift {
     public Lift() {
           maxWeight = 400;
           maxPeopleCount = 5;
-          currentFloor = Emulation.getInstance().getBuilding().getFloorList().get(0);
-          destinationFloor = Emulation.getInstance().getBuilding().getFloorList().get(1);
           liftPassengers = new ArrayList<>();
           strategy = new NoNewStrategy();
           currentWeight = 0;
           isMoving = false;
-          speed = 0;
+          speed = 5;
     }
 
     public Lift(Integer mv, Integer mpc, boolean isMoving, int speed){
@@ -39,8 +37,11 @@ public class Lift {
     }
 
     public void MoveElevator(){
-        while(liftPassengers.size() != 0){
+        if(liftPassengers.size() != 0){
             moveToFloor(liftPassengers.get(0).getDestinationFloor());
+        }
+        else{
+            currentFloor.AddPassLift(this);
         }
     }
 
@@ -49,7 +50,7 @@ public class Lift {
         this.destinationFloor = f;
         isMoving = true;
         while (this.currentFloor!=this.destinationFloor){
-            moveToNextDoorFloor(Emulation.getInstance().getBuilding().getFloorList(), this.currentFloor.getFloorNumber()-this.destinationFloor.getFloorNumber());
+            moveToNextDoorFloor(Emulation.getInstance().getBuilding().getFloorList(), this.destinationFloor.getFloorNumber() - this.currentFloor.getFloorNumber());
         }
         isMoving = false;
     }

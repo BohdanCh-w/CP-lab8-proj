@@ -28,11 +28,10 @@ public class Emulation {
     }
 
     private Emulation (){
-        this.building = new Building();
         this.state = State.NON_INITIALIZED;
-        this.spawnSpeed = null;
         this.liftThreads = new ArrayList<>();
         this.ui = new UI();
+        this.spawnSpeed = null;
         this.passengerTimer = new Timer();
         this.passengerGenerator = new SpawnPassengersThread();
 
@@ -68,6 +67,12 @@ public class Emulation {
                     }
                 }
                 System.exit(0);
+            }
+        });
+
+        ui.addOnBuild(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                setBuilding();
             }
         });
     }
@@ -124,10 +129,19 @@ public class Emulation {
     public void setBuilding() {
         int floorCount = this.ui.Configuration().getFloorsCount();
         int liftCount = this.ui.Configuration().getLiftsCount();
+        this.spawnSpeed = this.ui.Configuration().getPassangerSpawnTime();
 
         this.building = new Building(floorCount, liftCount);
-        this.ui.Building().CreateBuilding(floorCount, liftCount);
+        for(int i=0; i<building.getLiftList().size(); i++){
+            building.getLiftList().get(i).setCurrentFloor(building.getFloorList().get(0));
+            building.getLiftList().get(i).setDestinationFloor(building.getFloorList().get(0));
+        }
 
+        for(var floor : building.getFloorList()){
+            floor.initializeQueue();
+        }
+
+        this.ui.Building().CreateBuilding(floorCount, liftCount);
         this.ui.Configuration().SetLiftListForConfig(building.getLiftList());
     }
     public void setSpawnSpeed(Integer spawnSpeed) {
