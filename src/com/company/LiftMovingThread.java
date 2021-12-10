@@ -34,7 +34,7 @@ public class LiftMovingThread extends Thread{
         while(isActive){
             lift.MoveElevator();
             try{
-                Thread.currentThread().sleep(lift.getSpeed() * 1000);
+                Thread.sleep(lift.getSpeed() * 1000);
             }
             catch (Exception threadException){
                 logger.Log("Thread problem", LogLvl.LOG_ERROR);
@@ -43,7 +43,6 @@ public class LiftMovingThread extends Thread{
                     .MoveLift(liftNumber, lift.getDestinationFloor().getFloorNumber());
             logger.Log(String.format("Lift %s moved from %s to %s", liftNumber, lift.getCurrentFloor().getFloorNumber(), lift.getDestinationFloor().getFloorNumber()), LogLvl.LOG_FILE);
         }
-        //liftMoving.schedule(liftTask, lift.getSpeed() * 1000, lift.getSpeed() * 1000);
     }
 
     public boolean terminate(){

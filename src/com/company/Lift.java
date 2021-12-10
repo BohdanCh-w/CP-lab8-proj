@@ -73,9 +73,7 @@ public class Lift {
         }
         notifyFloor();
     }
-    public void leaveLift(){
-        //liftPassengers.stream().filter((el)->el.getDestinationFloor().equals(this.destinationFloor));
-    }
+    
     public Floor getCurrentFloor() {
         return currentFloor;
     }
