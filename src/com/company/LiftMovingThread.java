@@ -15,9 +15,11 @@ public class LiftMovingThread extends Thread{
     TimerTask liftTask = new TimerTask() {
         @Override
         public void run() {
-            lift.MoveElevator();
-            Emulation.getInstance().getUi().Building()
-                    .MoveLift(liftNumber, lift.getDestinationFloor().getFloorNumber());
+            if(Emulation.getInstance().getState() != Emulation.State.STOPPED && isActive){
+                lift.MoveElevator();
+                Emulation.getInstance().getUi().Building()
+                        .MoveLift(liftNumber, lift.getDestinationFloor().getFloorNumber());
+            }
         }
     };
 
@@ -29,10 +31,19 @@ public class LiftMovingThread extends Thread{
 
     @Override
     public void run() {
-        while(Emulation.getInstance().getState() != Emulation.State.STOPPED && isActive){
-            liftMoving.schedule(liftTask, lift.getSpeed() * 1000);
+        while(isActive){
+            lift.MoveElevator();
+            try{
+                Thread.currentThread().sleep(lift.getSpeed() * 1000);
+            }
+            catch (Exception threadException){
+                logger.Log("Thread problem", LogLvl.LOG_ERROR);
+            }
+            Emulation.getInstance().getUi().Building()
+                    .MoveLift(liftNumber, lift.getDestinationFloor().getFloorNumber());
+            logger.Log(String.format("Lift %s moved from %s to %s", liftNumber, lift.getCurrentFloor().getFloorNumber(), lift.getDestinationFloor().getFloorNumber()), LogLvl.LOG_FILE);
         }
-        logger.Log("Program has started", LogLvl.LOG_FILE);
+        //liftMoving.schedule(liftTask, lift.getSpeed() * 1000, lift.getSpeed() * 1000);
     }
 
     public boolean terminate(){

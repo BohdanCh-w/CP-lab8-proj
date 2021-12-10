@@ -13,11 +13,9 @@ import com.company.ui.UI;
 public class Program {
     public static Logger logger;
 
-    public Program() {
-        logger = new ConsoleLogger(new FileLogger(new ErrorLogger(null), "logger.txt"));
-    }
-
     public static void main(String[] args) {
+        logger = new ConsoleLogger(new FileLogger(new ErrorLogger(null), "logger.txt"));
+        Passanger.InitializeId();
         Emulation.getInstance();
         Emulation.getInstance();
     }

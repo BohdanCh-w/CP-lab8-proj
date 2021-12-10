@@ -9,7 +9,7 @@ public class Floor {
 
     public Floor(Integer fn){
         this.floorNumber = fn;
-        this.queue = new HashMap<>();
+        this.queue = new HashMap<Lift, ArrayDeque<Passanger>>();
     }
 
     private Lift ChooseLift(){
@@ -19,24 +19,24 @@ public class Floor {
         int min = first.getValue().size();
 
         for(var temp : queue.entrySet()) {
-            if(!temp.getKey().isMoving()) {
                 if (min > temp.getValue().size()) {
                     min = temp.getValue().size();
                     lift = temp.getKey();
                 }
-            }
         }
 
         return lift;
     }
 
-    public void AddPassengerToQueue(Passanger passanger){
+    public Lift AddPassengerToQueue(Passanger passanger){
         Lift lift = ChooseLift();
 
         var que = queue.get(lift);
         que.add(passanger);
 
         queue.put(lift, que);
+
+        return lift;
     }
 
     public void RemovePassLift(Lift l){
@@ -60,6 +60,12 @@ public class Floor {
             l.getLiftPassengers().add(pas);
             l.setCurrentWeight(l.getCurrentWeight() + pas.getWeight());
             queue.get(l).removeFirst();
+        }
+    }
+
+    public void initializeQueue() {
+        for(var lift : Emulation.getInstance().getBuilding().getLiftList()){
+            this.queue.put(lift, new ArrayDeque<>());
         }
     }
 
