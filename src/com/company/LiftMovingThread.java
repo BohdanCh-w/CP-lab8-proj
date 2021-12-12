@@ -5,7 +5,6 @@ import java.util.TimerTask;
 
 public class LiftMovingThread extends Thread{
     private Lift lift;
-    private int liftNumber;
     private boolean isActive = false;
 
     Timer liftMoving = new Timer();
@@ -18,9 +17,8 @@ public class LiftMovingThread extends Thread{
         }
     };
 
-    LiftMovingThread(Lift lift, int liftNumber){
+    LiftMovingThread(Lift lift){
         this.lift = lift;
-        this.liftNumber = liftNumber;
         this.isActive = true;
     }
 
