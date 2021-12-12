@@ -41,7 +41,7 @@ public class BuildingPanel {
     public BuildingPanel() {
         root.setLayout(new GridBagLayout());
         root.setPreferredSize(new Dimension(windowWidth, windowHeight));
-
+        root.setBackground(Color.decode("#ffc77d"));
         loadResourses();
     }
 
@@ -110,6 +110,24 @@ public class BuildingPanel {
             windowWidth-index*liftMargin-15-liftWidth, windowHeight-7-floorHeight*floor-liftHeight, 
             liftWidth, liftHeight
         );
+    }
+
+    public void AnimateLift(int index, int floor, int duration) {
+        var lift = lifts.get(index);
+        var box = lift.getBounds();
+
+        int start = box.y;
+        int end = windowHeight-7-floorHeight*floor-liftHeight;
+        int stepsCount = duration / 10;
+        double step = (end - start + 0.0) / stepsCount;
+        double height = start;
+
+        for(int i = 0; i < stepsCount; ++i) {
+            try {Thread.sleep(10); } catch(Exception e) {};
+            height += step;
+            box.y = (int)height;
+            lift.setBounds(box);
+        }
     }
 
     public void SetPassangerNumber(int floor, int lift, int passangerNumber) {

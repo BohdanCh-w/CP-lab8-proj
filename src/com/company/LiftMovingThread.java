@@ -14,8 +14,6 @@ public class LiftMovingThread extends Thread{
         public void run() {
             if(Emulation.getInstance().getState() != Emulation.State.STOPPED && isActive){
                 lift.MoveElevator();
-                Emulation.getInstance().getUi().Building()
-                        .MoveLift(liftNumber, lift.getDestinationFloor().getFloorNumber());
             }
         }
     };

@@ -72,13 +72,6 @@ public class Lift {
     }
     //їзда до наступного поверху
     public void moveToNextDoorFloor(ArrayList<Floor> floorList, Integer direction){
-        try{
-            Thread.sleep(this.getSpeed() * 200);
-        }
-        catch (Exception threadException){
-            logger.Log("Thread problem", LogLvl.LOG_ERROR);
-        }
-        
         if (direction>0){
             this.currentFloor = floorList.stream().
             filter((el)->(el.getFloorNumber() - currentFloor.getFloorNumber())==1).collect(Collectors.toList()).get(0);
@@ -87,9 +80,9 @@ public class Lift {
             this.currentFloor = floorList.stream().
             filter((el)->(el.getFloorNumber() - currentFloor.getFloorNumber())==-1).collect(Collectors.toList()).get(0);
         }
-        Emulation.getInstance().getUi().Building().MoveLift(                
-                Emulation.getInstance().getBuilding().getLiftList().indexOf(this), 
-                this.currentFloor.getFloorNumber());
+        Emulation.getInstance().getUi().Building().AnimateLift(
+                Emulation.getInstance().getBuilding().getLiftList().indexOf(this),
+                this.currentFloor.getFloorNumber(), this.getSpeed() * 200);
         notifyFloor();
     }
 
