@@ -47,7 +47,6 @@ public class ControlPanel {
         eLift = new JTextField();
         eLift.setPreferredSize(new Dimension(30, 35));
         eLift.setFont(lFont);
-        eLift.setBorder(new RoundedBorder(20));
 
         lFloor = new JLabel("Floors");
         lLift.setPreferredSize(new Dimension(30, 35));
@@ -55,7 +54,6 @@ public class ControlPanel {
         eFloor = new JTextField();
         eFloor.setPreferredSize(new Dimension(30, 35));
         eFloor.setFont(lFont);
-        eFloor.setBorder(new RoundedBorder(20));
 
         lSpwnTime = new JLabel("Spawn Time");
         lLift.setPreferredSize(new Dimension(30, 35));
@@ -63,7 +61,6 @@ public class ControlPanel {
         eSpwnTime = new JTextField();
         eSpwnTime.setPreferredSize(new Dimension(30, 35));
         eSpwnTime.setFont(lFont);
-        eSpwnTime.setBorder(new RoundedBorder(20));
 
         bLiftConfig = new JButton("Lift Config");
         bLiftConfig.setPreferredSize(new Dimension(30, 35));
