@@ -65,6 +65,8 @@ public class Floor {
             l.getLiftPassengers().add(pas);
             l.setCurrentWeight(l.getCurrentWeight() + pas.getWeight());
             queue.get(l).removeFirst();
+            
+            try {Thread.sleep(400);} catch (InterruptedException e) {};
             Emulation.getInstance().getUi().Building().changePassangerNumber(
                 l.getCurrentFloor().getFloorNumber(), 
                 Emulation.getInstance().getBuilding().getLiftList().indexOf(l), -1);
