@@ -104,16 +104,19 @@ public class LiftConfigFrame {
         lWeight.setFont(primaryFont);
         eWeight = new JTextField();
         eWeight.setFont(secondaryFont);
+        eWeight.setBorder(new RoundedBorder(20));
 
         lPassangers = new JLabel("Max Passangers Count");
         lPassangers.setFont(primaryFont);
         ePassangers = new JTextField();
         ePassangers.setFont(secondaryFont);
+        ePassangers.setBorder(new RoundedBorder(20));
 
         lSpeed = new JLabel("Lift Speed");
         lSpeed.setFont(primaryFont);
         eSpeed = new JTextField();
         eSpeed.setFont(secondaryFont);
+        eSpeed.setBorder(new RoundedBorder(20));
 
         bSave = new JButton("Save");
         bSave.setFont(secondaryFont);
