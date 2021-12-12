@@ -134,7 +134,7 @@ public class BuildingPanel {
         }
     }
 
-    public void changePassangerNumber(int floor, int lift, int passangerNumber) {
+    public synchronized void changePassangerNumber(int floor, int lift, int passangerNumber) {
         var queue = passangers.get(floor).get(lift);
         if(passangerNumber < 0) {
             for(int i = 0; i > passangerNumber; --i) {
