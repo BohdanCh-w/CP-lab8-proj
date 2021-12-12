@@ -30,6 +30,7 @@ public class ControlPanel {
     public ControlPanel() {
         panel.setLayout(new GridBagLayout());
         panel.setPreferredSize(new Dimension(350, 720));
+        panel.setBackground(Color.decode("#ffc77d"));
 
         createComponents();
         drawComponents();
@@ -131,7 +132,6 @@ public class ControlPanel {
             configFrame.dispose();
         }
         configFrame = new LiftConfigFrame(lifts).getComponent();
-        configFrame.getContentPane().setBackground(Color.decode("#e0ad34"));
     }
 
     public static class Hover extends MouseAdapter{

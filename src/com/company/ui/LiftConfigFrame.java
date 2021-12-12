@@ -41,7 +41,7 @@ public class LiftConfigFrame {
         root.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         root.setSize(500,350);
         root.setLayout(null);
-        root.getContentPane().setBackground(Color.decode("#e0ad34"));
+        root.getContentPane().setBackground(Color.decode("#ffc77d"));
 
         createComponents();
         drawComponents();
@@ -85,10 +85,17 @@ public class LiftConfigFrame {
 
         lStrategy = new JLabel("Lift Strategy");
         lStrategy.setFont(primaryFont);
+
         rbNoMore = new JRadioButton("No More Passangers");
         rbNoMore.setFont(secondaryFont);
+        rbNoMore.setBackground(backColor);
+        rbNoMore.setForeground(fontColor);
+
         rbTakeMore = new JRadioButton("Take More Passangers");
         rbTakeMore.setFont(secondaryFont);
+        rbTakeMore.setBackground(backColor);
+        rbTakeMore.setForeground(fontColor);
+
         var rbGroup = new ButtonGroup();
         rbGroup.add(rbNoMore);
         rbGroup.add(rbTakeMore);
