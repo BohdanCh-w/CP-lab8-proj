@@ -1,8 +1,6 @@
 package com.company.logger;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -30,9 +28,16 @@ public class FileLogger extends BaseLogger{
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                 LocalDateTime now = LocalDateTime.now();
 
-                BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
-                writer.write(dtf.format(now) + " " + data + " Lvl: " + level);
-                writer.close();
+                File log = new File(filePath);
+                if (!log.exists()){
+                    System.out.println("Can`t find log file, creating a new one.");
+                    log.createNewFile();
+                }
+
+                PrintWriter out = new PrintWriter(new FileWriter(log, true));
+                out.append(dtf.format(now)).append(" ").append(data).append(" Lvl: ").append(String.valueOf(level));
+                out.close();
+
             } catch (IOException ex) {
                 System.out.println("File writing exception: " + ex.getMessage());
                 System.out.println("Stack trace: " + Arrays.toString(ex.getStackTrace()));
