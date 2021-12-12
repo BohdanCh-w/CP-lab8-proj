@@ -17,6 +17,7 @@ public class UI {
     public UI() {
         root.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         root.setSize(1280,750);
+        root.setResizable(false);
         root.setLayout(null);
         root.getContentPane().setBackground(Color.decode("#e0ad34"));
 

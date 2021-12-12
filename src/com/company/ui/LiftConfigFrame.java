@@ -4,13 +4,11 @@ import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
-import javax.swing.border.CompoundBorder;
 import java.util.List;
 import com.company.*;
 import com.company.logger.LogLvl;
 import com.company.strategy.*;
 import static com.company.Program.logger;
-import static com.company.ui.ControlPanel.backColorHover;
 import static com.company.ui.ControlPanel.backColor;
 import static com.company.ui.ControlPanel.fontColor;
 import static com.company.ui.ControlPanel.RoundedBorder;
