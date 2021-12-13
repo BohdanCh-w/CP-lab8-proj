@@ -35,7 +35,7 @@ public class FileLogger extends BaseLogger{
                 }
 
                 PrintWriter out = new PrintWriter(new FileWriter(log, true));
-                out.append(dtf.format(now)).append(" ").append(data).append(" Lvl: ").append(String.valueOf(level));
+                out.append(dtf.format(now)).append(" ").append(data).append(" Lvl: ").append(String.valueOf(level)).append("\n");
                 out.close();
 
             } catch (IOException ex) {
