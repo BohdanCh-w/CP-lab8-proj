@@ -54,7 +54,6 @@ public class Lift {
                         Emulation.getInstance().getBuilding().getLiftList().indexOf(this),
                         this.getCurrentFloor().getFloorNumber(),
                         this.getDestinationFloor().getFloorNumber()), LogLvl.LOG_CONSOLE);
-                this.moveToFloor(liftPassengers.get(0).getDestinationFloor());
             }
             else{
                 currentFloor.AddPassLift(this);
@@ -68,11 +67,9 @@ public class Lift {
     private Floor NoPassFloor(){
         Floor takePass = currentFloor;
         for(var floor : Emulation.getInstance().getBuilding().getFloorList()){
-            for(var que : floor.getQueue().entrySet()){
-                if(que.getValue().size() > 0){
-                    takePass = floor;
-                    return takePass;
-                }
+            if(floor.getQueue().get(this).size() > 0){
+                takePass = floor;
+                return takePass;
             }
         }
         return takePass;

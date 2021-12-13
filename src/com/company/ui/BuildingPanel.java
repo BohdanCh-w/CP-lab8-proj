@@ -41,7 +41,7 @@ public class BuildingPanel {
     public BuildingPanel() {
         root.setLayout(new GridBagLayout());
         root.setPreferredSize(new Dimension(windowWidth, windowHeight));
-        root.setBackground(Color.decode("#ffc77d"));
+        root.setBackground(Color.decode("#fff4e6"));
         loadResourses();
     }
 
