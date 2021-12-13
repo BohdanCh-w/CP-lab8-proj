@@ -44,14 +44,38 @@ public class Lift {
                 Emulation.getInstance().getBuilding().getLiftList().indexOf(this), 
                 this.getCurrentFloor().getFloorNumber(), 
                 this.getDestinationFloor().getFloorNumber()), LogLvl.LOG_CONSOLE);
-            moveToFloor(liftPassengers.get(0).getDestinationFloor());
+                this.moveToFloor(liftPassengers.get(0).getDestinationFloor());
         }
         else{
-            currentFloor.AddPassLift(this);
-            logger.Log(String.format("Lift %s waiting for passangers at %s", 
-                Emulation.getInstance().getBuilding().getLiftList().indexOf(this),
-                this.getCurrentFloor().getFloorNumber()), LogLvl.LOG_CONSOLE);
+            if(currentFloor.getQueue().get(this).size() == 0){
+                Floor takePass = NoPassFloor();
+                this.moveToFloor(takePass);
+                logger.Log(String.format("Lift %s moved from %s to %s",
+                        Emulation.getInstance().getBuilding().getLiftList().indexOf(this),
+                        this.getCurrentFloor().getFloorNumber(),
+                        this.getDestinationFloor().getFloorNumber()), LogLvl.LOG_CONSOLE);
+                this.moveToFloor(liftPassengers.get(0).getDestinationFloor());
+            }
+            else{
+                currentFloor.AddPassLift(this);
+                logger.Log(String.format("Lift %s waiting for passangers at %s",
+                        Emulation.getInstance().getBuilding().getLiftList().indexOf(this),
+                        this.getCurrentFloor().getFloorNumber()), LogLvl.LOG_CONSOLE);
+            }
         }
+    }
+
+    private Floor NoPassFloor(){
+        Floor takePass = currentFloor;
+        for(var floor : Emulation.getInstance().getBuilding().getFloorList()){
+            for(var que : floor.getQueue().entrySet()){
+                if(que.getValue().size() > 0){
+                    takePass = floor;
+                    return takePass;
+                }
+            }
+        }
+        return takePass;
     }
 
     //їзда до поверху призначення
