@@ -9,6 +9,10 @@ import com.company.*;
 import com.company.logger.LogLvl;
 import com.company.strategy.*;
 import static com.company.Program.logger;
+import static com.company.ui.ControlPanel.backColor;
+import static com.company.ui.ControlPanel.fontColor;
+import static com.company.ui.ControlPanel.RoundedBorder;
+import static com.company.ui.ControlPanel.Hover;
 
 public class LiftConfigFrame {
     private JFrame root = new JFrame();
@@ -35,6 +39,7 @@ public class LiftConfigFrame {
         root.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         root.setSize(500,350);
         root.setLayout(null);
+        root.getContentPane().setBackground(Color.decode("#ffc77d"));
 
         createComponents();
         drawComponents();
@@ -56,6 +61,11 @@ public class LiftConfigFrame {
             }
         });
         bPrev.setEnabled(false);
+        bPrev.addMouseListener(new Hover(bPrev));
+        bPrev.setBackground(backColor);
+        bPrev.setForeground(fontColor);
+        bPrev.setBorder(new RoundedBorder(20));
+
         bNext = new JButton("Next");
         bNext.setFont(secondaryFont);
         bNext.addActionListener( new ActionListener() {
@@ -63,16 +73,27 @@ public class LiftConfigFrame {
                 next();
             }
         });
+        bNext.addMouseListener(new Hover(bNext));
+        bNext.setBackground(backColor);
+        bNext.setForeground(fontColor);
+        bNext.setBorder(new RoundedBorder(20));
 
         lCurr = new JLabel("Lift Configuration");
         lCurr.setFont(new Font("TimesRoman", Font.PLAIN, 26));
 
         lStrategy = new JLabel("Lift Strategy");
         lStrategy.setFont(primaryFont);
+
         rbNoMore = new JRadioButton("No More Passangers");
         rbNoMore.setFont(secondaryFont);
+        rbNoMore.setBackground(backColor);
+        rbNoMore.setForeground(fontColor);
+
         rbTakeMore = new JRadioButton("Take More Passangers");
         rbTakeMore.setFont(secondaryFont);
+        rbTakeMore.setBackground(backColor);
+        rbTakeMore.setForeground(fontColor);
+
         var rbGroup = new ButtonGroup();
         rbGroup.add(rbNoMore);
         rbGroup.add(rbTakeMore);
@@ -99,6 +120,10 @@ public class LiftConfigFrame {
                 save();
             }
         });
+        bSave.addMouseListener(new Hover(bSave));
+        bSave.setBackground(backColor);
+        bSave.setForeground(fontColor);
+        bSave.setBorder(new RoundedBorder(20));
     }
 
     private void drawComponents() {

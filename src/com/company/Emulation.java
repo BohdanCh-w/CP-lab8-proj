@@ -66,6 +66,7 @@ public class Emulation {
                         }
                     }
                 }
+                logger.Log(String.format("Program finished"), LogLvl.LOG_FILE);
                 System.exit(0);
             }
         });
@@ -88,7 +89,7 @@ public class Emulation {
         passengerTimer.schedule(passengerGenerator, spawnSpeed * 1000, spawnSpeed * 1000);
 
         for(int i=0; i<building.getLiftList().size(); i++){
-            liftThreads.add(new LiftMovingThread(building.getLiftList().get(i), i));
+            liftThreads.add(new LiftMovingThread(building.getLiftList().get(i)));
             liftThreads.get(i).start();
         }
     }

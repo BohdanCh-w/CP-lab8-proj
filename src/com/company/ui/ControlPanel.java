@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.util.List;
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.event.*;
 
 public class ControlPanel {
@@ -20,12 +21,16 @@ public class ControlPanel {
     private JButton bBuild;
     private JButton bStart;
     private JFrame configFrame = null;
-
     private List<Lift> lifts;
+
+    public static Color fontColor = Color.WHITE;
+    public static Color backColor = Color.decode("#51997c");
+    public static Color backColorHover = Color.decode("#256e51");
 
     public ControlPanel() {
         panel.setLayout(new GridBagLayout());
         panel.setPreferredSize(new Dimension(350, 720));
+        panel.setBackground(Color.decode("#ffc77d"));
 
         createComponents();
         drawComponents();
@@ -65,14 +70,26 @@ public class ControlPanel {
                 openLiftConfig();
             }
         });
+        bLiftConfig.addMouseListener(new Hover(bLiftConfig));
+        bLiftConfig.setBackground(backColor);
+        bLiftConfig.setForeground(fontColor);
+        bLiftConfig.setBorder(new RoundedBorder(20));
         
         bBuild = new JButton("Build");
         bBuild.setPreferredSize(new Dimension(30, 35));
         bBuild.setFont(bFont);
+        bBuild.addMouseListener(new Hover(bBuild));
+        bBuild.setBackground(backColor);
+        bBuild.setForeground(fontColor);
+        bBuild.setBorder(new RoundedBorder(20));
         
         bStart = new JButton("Start");
         bStart.setPreferredSize(new Dimension(30, 35));
         bStart.setFont(bFont);
+        bStart.addMouseListener(new Hover(bStart));
+        bStart.setBackground(backColor);
+        bStart.setForeground(fontColor);
+        bStart.setBorder(new RoundedBorder(20));
     }
 
     private void drawComponents() {
@@ -115,6 +132,42 @@ public class ControlPanel {
             configFrame.dispose();
         }
         configFrame = new LiftConfigFrame(lifts).getComponent();
+    }
+
+    public static class Hover extends MouseAdapter{
+        private JButton button;
+
+        public Hover(JButton button) {
+            this.button = button;
+        }
+
+        public void mouseEntered(java.awt.event.MouseEvent evt) {
+            button.setBackground(backColorHover);
+        }
+
+        public void mouseExited(java.awt.event.MouseEvent evt) {
+            button.setBackground(backColor);
+        }
+    }
+
+    public static class RoundedBorder implements Border {
+        private int radius;
+
+        RoundedBorder(int radius) {
+            this.radius = radius;
+        }
+
+        public Insets getBorderInsets(Component c) {
+            return new Insets(this.radius + 1, this.radius+1, this.radius + 2, this.radius);
+        }
+
+        public boolean isBorderOpaque() {
+            return true;
+        }
+
+        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+            g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
+        }
     }
 
     public JPanel getComponent() {

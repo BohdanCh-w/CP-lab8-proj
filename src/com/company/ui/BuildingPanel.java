@@ -41,7 +41,7 @@ public class BuildingPanel {
     public BuildingPanel() {
         root.setLayout(new GridBagLayout());
         root.setPreferredSize(new Dimension(windowWidth, windowHeight));
-
+        root.setBackground(Color.decode("#fff4e6"));
         loadResourses();
     }
 
@@ -112,6 +112,24 @@ public class BuildingPanel {
         );
     }
 
+    public void AnimateLift(int index, int floor, int duration) {
+        var lift = lifts.get(index);
+        var box = lift.getBounds();
+
+        int start = box.y;
+        int end = windowHeight-7-floorHeight*floor-liftHeight;
+        int stepsCount = duration / 10;
+        double step = (end - start + 0.0) / stepsCount;
+        double height = start;
+
+        for(int i = 0; i < stepsCount; ++i) {
+            try {Thread.sleep(10); } catch(Exception e) {};
+            height += step;
+            box.y = (int)height;
+            lift.setBounds(box);
+        }
+    }
+
     public void SetPassangerNumber(int floor, int lift, int passangerNumber) {
         var queue = passangers.get(floor).get(lift);
         if(queue.size() > passangerNumber) {
@@ -134,7 +152,7 @@ public class BuildingPanel {
         }
     }
 
-    public void changePassangerNumber(int floor, int lift, int passangerNumber) {
+    public synchronized void changePassangerNumber(int floor, int lift, int passangerNumber) {
         var queue = passangers.get(floor).get(lift);
         if(passangerNumber < 0) {
             for(int i = 0; i > passangerNumber; --i) {

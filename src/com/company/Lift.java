@@ -5,6 +5,8 @@ import com.company.strategy.NoNewStrategy;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+import static com.company.Program.logger;
+import com.company.logger.LogLvl;
 
 public class Lift {
     private Integer maxWeight;
@@ -38,11 +40,39 @@ public class Lift {
 
     public void MoveElevator(){
         if(liftPassengers.size() != 0){
-            moveToFloor(liftPassengers.get(0).getDestinationFloor());
+            logger.Log(String.format("Lift %s moved from %s to %s", 
+                Emulation.getInstance().getBuilding().getLiftList().indexOf(this), 
+                this.getCurrentFloor().getFloorNumber(), 
+                this.getDestinationFloor().getFloorNumber()), LogLvl.LOG_CONSOLE);
+                this.moveToFloor(liftPassengers.get(0).getDestinationFloor());
         }
         else{
-            currentFloor.AddPassLift(this);
+            if(currentFloor.getQueue().get(this).size() == 0){
+                Floor takePass = NoPassFloor();
+                this.moveToFloor(takePass);
+                logger.Log(String.format("Lift %s moved from %s to %s",
+                        Emulation.getInstance().getBuilding().getLiftList().indexOf(this),
+                        this.getCurrentFloor().getFloorNumber(),
+                        this.getDestinationFloor().getFloorNumber()), LogLvl.LOG_CONSOLE);
+            }
+            else{
+                currentFloor.AddPassLift(this);
+                logger.Log(String.format("Lift %s waiting for passangers at %s",
+                        Emulation.getInstance().getBuilding().getLiftList().indexOf(this),
+                        this.getCurrentFloor().getFloorNumber()), LogLvl.LOG_CONSOLE);
+            }
         }
+    }
+
+    private Floor NoPassFloor(){
+        Floor takePass = currentFloor;
+        for(var floor : Emulation.getInstance().getBuilding().getFloorList()){
+            if(floor.getQueue().get(this).size() > 0){
+                takePass = floor;
+                return takePass;
+            }
+        }
+        return takePass;
     }
 
     //їзда до поверху призначення
@@ -65,17 +95,18 @@ public class Lift {
     public void moveToNextDoorFloor(ArrayList<Floor> floorList, Integer direction){
         if (direction>0){
             this.currentFloor = floorList.stream().
-                    filter((el)->(el.getFloorNumber() - currentFloor.getFloorNumber())==1).collect(Collectors.toList()).get(0);
+            filter((el)->(el.getFloorNumber() - currentFloor.getFloorNumber())==1).collect(Collectors.toList()).get(0);
         }
         else if (direction<0){
             this.currentFloor = floorList.stream().
-                    filter((el)->(el.getFloorNumber() - currentFloor.getFloorNumber())==-1).collect(Collectors.toList()).get(0);
+            filter((el)->(el.getFloorNumber() - currentFloor.getFloorNumber())==-1).collect(Collectors.toList()).get(0);
         }
+        Emulation.getInstance().getUi().Building().AnimateLift(
+                Emulation.getInstance().getBuilding().getLiftList().indexOf(this),
+                this.currentFloor.getFloorNumber(), this.getSpeed() * 200);
         notifyFloor();
     }
-    public void leaveLift(){
-        //liftPassengers.stream().filter((el)->el.getDestinationFloor().equals(this.destinationFloor));
-    }
+
     public Floor getCurrentFloor() {
         return currentFloor;
     }
